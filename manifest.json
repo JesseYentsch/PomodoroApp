@@ -1,0 +1,9 @@
+{
+    "name": "Pomodoro Chrome Extension",
+    "description": "Build a chrome extension that implements the pomodoro method",
+    "version": "0.1",
+    "browser_action": {
+        
+    },
+    "manifest_version":2
+}
