@@ -2,8 +2,11 @@
     "name": "Pomodoro Chrome Extension",
     "description": "Build a chrome extension that implements the pomodoro method",
     "version": "0.1",
+    "author": "Jesse Yentsch",
+    "permissions": ["activeTab"],
     "browser_action": {
-        
+        "default_popup": "popup.html"
     },
+    
     "manifest_version":2
 }
