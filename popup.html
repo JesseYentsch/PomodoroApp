@@ -1,17 +1,24 @@
-<!DOCTYPE <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Pomodoro Method</title>
+    <title>Pomodoro AppMethod</title>
     <link rel="stylesheet" href="popup.css">
 </head>
 <body>
     <h1>Pomodoro Method</h1>
-    <div class="description" >
-        <h4>A time management method used to increase productivity</h4>
+    <div id="description">
+        <h4>A time management method used to increase productivity.</h4>
     </div>
     <div>
-        <button id="startButton">Start</button> <button id="stopButton">Stop</button>
+        <button id="startButton">Start</button>
+        <button id="stopButton">Stop</button>
+        <button id="resetButton">Reset</button>
+    </div>
+    <div id="timer">
+        <span id="timerInterval" ></span>
+        
     </div>
     <script type="text/javascript" src="popup.js"></script>
+    <script type="text/javascript" src="background.js"></script>
 </body>
 </html>

@@ -1,15 +1,37 @@
+var timerInterval=document.getElementById('timerInterval');
+var minutes=1;
+var seconds=10;
+var background=chrome.extension.getBackgroundPage();
+var startButton=document.getElementById('startButton');
+var stopButton=document.getElementById('stopButton');
+var timer="";
+document.addEventListener('DOMContentLoaded',function(){
 
-
-document.addEventListener('DOMContentLoaded', function(){
-    var startButton=document.getElementById('startButton');
-    var stopButton=document.getElementById('stopButton');
-    
-    stopButton.addEventListener('click', function(){                //Might be a way to refactor these in the future, will be the start/stop buttons for timer
-        alert("the Stop button was clicked");
+    startButton.addEventListener('click',function(){
+        timer=setInterval(secondClock,1000);
     });
-    
-    startButton.addEventListener('click',function(){                //""""
-        alert("The start button was clicked");
-        console.log("The button was clicked");
-    }); 
+    stopButton.addEventListener('click', function(){
+        clearInterval(timer);
+    });
+    resetButton.addEventListener('click', function(){
+        minutes=24;
+        seconds=60;
+        timerInterval.innerHTML="Minutes: " + background.minutes + " Seconds: " + background.seconds;
+    });
+   
 });
+function secondClock(){
+    timerInterval.innerHTML="Minutes: " + minutes + " Seconds: " + seconds--;
+    if(seconds==-1){
+        minutes--;
+        if(minutes==-1 && seconds==-1){
+            minutes=24;
+            clearInterval(timer);
+        }
+        seconds=60;
+    }
+}
+
+
+
+
