@@ -4,7 +4,11 @@
     "description": "Build a chrome extension that implements the Pomodoro Technique",
     "version":"1",
     "author":"Jesse Yentsch",
-    "permissions":["activeTab"],
+    "permissions": [
+        "activeTab",
+        "tabs",
+        "storage"
+    ],
     "browser_action":{
         "default_popup": "popup.html"
     },
