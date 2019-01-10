@@ -1,27 +1,49 @@
-var timerInterval=document.getElementById('timerInterval');
+
 var minutes=1;
 var seconds=10;
-var startButton=document.getElementById('startButton');
-var stopButton=document.getElementById('stopButton');
+var restMinutes;
+var restSeconds;
 var timer="";
-document.addEventListener('DOMContentLoaded',function(){
+var timerValue=true;
+var session=document.getElementById('session');
+var button=document.getElementById('button');
+var timerInterval=document.getElementById('timerInterval');
+var increaseWorkInterval=document.getElementById('workInterval');
+var innerMinutes=document.getElementById('innerMinutes');
+var workInterval=document.getElementById('workInterval');
 
-    startButton.addEventListener('click',function(){
-        timer=setInterval(secondClock,1000);
-        
-    });
-    stopButton.addEventListener('click', function(){
-        clearInterval(timer);
-    });
+
+document.addEventListener('DOMContentLoaded',function(){
+    innerMinutes.innerHTML= minutes + "Work Minutes";
+    button.addEventListener('click',buttonClock)
+    workInterval.addEventListener('click' ,incrementWorkMinutes)
     resetButton.addEventListener('click', function(){
         minutes=24;
         seconds=60;
-        timerInterval.innerHTML="Minutes: " + minutes + " Seconds: " + seconds;
+        timerInterval.innerHTML= minutes + ":" + seconds;
+        stopButton.click();
     });
-   
 });
+function incrementWorkMinutes(){
+    minutes++;
+    innerMinutes.innerHTML= minutes + "Work Minutes";
+}
+function buttonClock(){
+    if(timerValue==true){
+        timer=setInterval(secondClock,1000);
+        timerValue=false;
+        session.innerHTML="Stop!";
+    }
+    else {
+        clearInterval(timer);
+        timerValue=true;
+        session.innerHTML="Start!";
+    }
+
+} 
+
 function secondClock(){
-    timerInterval.innerHTML="Minutes: " + minutes + " Seconds: " + seconds--;
+    timerInterval.innerHTML=  + minutes + ":" + seconds--;
     if(seconds==-1){
         minutes--;
         if(minutes==-1 && seconds==-1){
@@ -30,6 +52,7 @@ function secondClock(){
         }
         seconds=60;
     }
+   
 }
 
 

@@ -10,14 +10,18 @@
         <h4>A time management method used to increase productivity.</h4>
     </div>
     <div>
-        <button id="startButton">Start</button>
-        <button id="stopButton">Stop</button>
+        <button id="button">
+            <div id="session"></div>
+            <span id="timerInterval" ></span>
+        </button>
+    </div>
+    <div>
+        <button id="workInterval"> 
+            <div id="innerMinutes"></div>
+        </button>
         <button id="resetButton">Reset</button>
     </div>
-    <div id="timer">
-        <span id="timerInterval" ></span>
-        
-    </div>
+   
     <script type="text/javascript" src="popup.js"></script>
     <script type="text/javascript" src="background.js"></script>
 </body>
