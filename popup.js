@@ -1,9 +1,18 @@
 
-var minutes=1;
+const defaultMinutes=24;
+const defaultSeconds=59;
+const defaultRestMinutes=4;
+const defaultRestSeconds=59;
+
+var minutes=0;
 var seconds=10;
-var restMinutes;
-var restSeconds;
+
+var workMinutes=0
+var workSeconds=10
+var restMinutes=0;
+var restSeconds=15;
 var timer="";
+var restTimer="";
 var timerValue=true;
 var session=document.getElementById('session');
 var button=document.getElementById('button');
@@ -15,7 +24,7 @@ var workInterval=document.getElementById('workInterval');
 
 document.addEventListener('DOMContentLoaded',function(){
     innerMinutes.innerHTML= minutes + "Work Minutes";
-    button.addEventListener('click',buttonClock)
+    button.addEventListener('click',buttonClickClock)
     workInterval.addEventListener('click' ,incrementWorkMinutes)
     resetButton.addEventListener('click', function(){
         minutes=24;
@@ -24,13 +33,21 @@ document.addEventListener('DOMContentLoaded',function(){
         stopButton.click();
     });
 });
+
+//Increments the amount of "work" minutes
 function incrementWorkMinutes(){
-    minutes++;
-    innerMinutes.innerHTML= minutes + "Work Minutes";
+    workMinutes=minutes++;
+    innerMinutes.innerHTML= workMinutes + "Work Minutes";
 }
-function buttonClock(){
+function decrementWorkMinutes(){
+    workMinutes=minutes--;
+    innerMinutes.innerHTML= workMinutes + "Work Minutes";
+}
+
+//Functionality of the stop/start button
+function buttonClickClock(){
     if(timerValue==true){
-        timer=setInterval(secondClock,1000);
+        timer=setInterval(workClock,1000);
         timerValue=false;
         session.innerHTML="Stop!";
     }
@@ -42,17 +59,39 @@ function buttonClock(){
 
 } 
 
-function secondClock(){
-    timerInterval.innerHTML=  + minutes + ":" + seconds--;
-    if(seconds==-1){
-        minutes--;
-        if(minutes==-1 && seconds==-1){
-            minutes=24;
+//Function that handles the work clock logic.
+function workClock(){
+    timerInterval.innerHTML=   workMinutes + ":" + workSeconds--;
+    if(workSec==-1){
+        workMin--;
+        if(workMinutes==-1 && workSeconds==-1){
+            workMinutes=minutes;
             clearInterval(timer);
+            buttonRestClock()
         }
-        seconds=60;
+        workSeconds=seconds;
     }
-   
+}
+
+
+
+
+
+function buttonRestClock(){
+    restTimer=setInterval(restClock, 1000);
+}
+
+
+
+function restClock(){
+    timerInterval.innerHTML= restMinutes + ":" + restSeconds--;
+    if(restSeconds==-1){
+        restMinutes--;
+        if(restMinutes==-1 && restSeconds==-1){
+            clearInterval(restTimer);
+            buttonClickClock();
+        }
+    }
 }
 
 
