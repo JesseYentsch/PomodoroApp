@@ -7,8 +7,7 @@ var workMinutes=24
 var workSeconds=59
 var restMinutes=Math.floor(minutes/5);
 var restSeconds=59;
-var timeSpentSec=0;
-var timeSpentMin=0;
+
 
 var timer="";
 var restTimer="";
@@ -32,7 +31,7 @@ document.addEventListener('DOMContentLoaded',function(){
         name:"Sample Communication"
         
     });
-    port.postMessage(timeSpentWorking.sec);
+    port.postMessage("To the background");
     port.onMessage.addListener(function(msg){
         console.log("message recieved " + msg);
     });
@@ -91,10 +90,8 @@ function buttonWorkClock(){
 function workClock(){
     
     timerInterval.innerHTML=   workMinutes + ":" + workSeconds--;
-    timeSpentSec++;
     if(workSeconds==-1){
         workMinutes--;
-        timeSpentMin++;
         if(workMinutes==-1 && workSeconds==-1){
             clearInterval(timer);
             workMinutes=minutes;
