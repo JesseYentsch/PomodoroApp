@@ -1,55 +1,83 @@
 
-const defaultMinutes=24;
-const defaultSeconds=59;
-const defaultRestMinutes=4;
-const defaultRestSeconds=59;
 
-var minutes=0;
-var seconds=10;
+var minutes=24;
+var seconds=59;
 
-var workMinutes=0
-var workSeconds=10
-var restMinutes=0;
-var restSeconds=15;
+var workMinutes=24
+var workSeconds=59
+var restMinutes=Math.floor(minutes/5);
+var restSeconds=59;
+var timeSpentSec=0;
+var timeSpentMin=0;
+
 var timer="";
 var restTimer="";
 var timerValue=true;
-var session=document.getElementById('session');
-var button=document.getElementById('button');
+
+var button=document.getElementById('timerButton');
 var timerInterval=document.getElementById('timerInterval');
-var increaseWorkInterval=document.getElementById('workInterval');
+var increaseWorkInterval=document.getElementById('incWorkInterval');
+var decreaseWorkInterval=document.getElementById('decWorkInterval');
 var innerMinutes=document.getElementById('innerMinutes');
 var workInterval=document.getElementById('workInterval');
 
 
 document.addEventListener('DOMContentLoaded',function(){
-    innerMinutes.innerHTML= minutes + "Work Minutes";
-    button.addEventListener('click',buttonClickClock)
-    workInterval.addEventListener('click' ,incrementWorkMinutes)
-    resetButton.addEventListener('click', function(){
-        minutes=24;
-        seconds=60;
-        timerInterval.innerHTML= minutes + ":" + seconds;
-        stopButton.click();
+    innerMinutes.innerHTML= minutes + " minutes";
+    button.addEventListener('click',buttonWorkClock);
+    increaseWorkInterval.addEventListener('click' ,incrementWorkMinutes);
+    decreaseWorkInterval.addEventListener('click', decrementWorkMinutes)
+    resetButton.addEventListener('click', reset);
+    var port=chrome.extension.connect({
+        name:"Sample Communication"
+        
     });
+    port.postMessage(timeSpentWorking.sec);
+    port.onMessage.addListener(function(msg){
+        console.log("message recieved " + msg);
+    });
+    port.onDisconnect.addListener(function(){
+        
+    });
+    
+   
 });
+
+function reset(){
+    workMinutes = minutes;
+    workSeconds = seconds;
+    restMinutes = Math.floor(minutes / 5);
+    restSeconds = 59;
+    timerValue = false;
+    button.click();
+    timerInterval.innerHTML = minutes + ":" + seconds;
+}
 
 //Increments the amount of "work" minutes
 function incrementWorkMinutes(){
-    workMinutes=minutes++;
-    innerMinutes.innerHTML= workMinutes + "Work Minutes";
+    minutes++;
+    workMinutes=minutes;
+    workSeconds=59;
+    innerMinutes.innerHTML= workMinutes + " minutes";
+    timerInterval.innerHTML=   workMinutes + ":" + workSeconds;
+    
 }
 function decrementWorkMinutes(){
-    workMinutes=minutes--;
-    innerMinutes.innerHTML= workMinutes + "Work Minutes";
+    if(minutes!=0){
+        minutes--;
+        workMinutes=minutes;
+        innerMinutes.innerHTML= workMinutes + " minutes";
+        timerInterval.innerHTML=   workMinutes + ":" + workSeconds;
+    }
 }
 
 //Functionality of the stop/start button
-function buttonClickClock(){
+function buttonWorkClock(){
+    var session=document.getElementById('session');
     if(timerValue==true){
         timer=setInterval(workClock,1000);
         timerValue=false;
-        session.innerHTML="Stop!";
+        session.innerHTML="Work!";
     }
     else {
         clearInterval(timer);
@@ -61,16 +89,21 @@ function buttonClickClock(){
 
 //Function that handles the work clock logic.
 function workClock(){
+    
     timerInterval.innerHTML=   workMinutes + ":" + workSeconds--;
-    if(workSec==-1){
-        workMin--;
+    timeSpentSec++;
+    if(workSeconds==-1){
+        workMinutes--;
+        timeSpentMin++;
         if(workMinutes==-1 && workSeconds==-1){
-            workMinutes=minutes;
             clearInterval(timer);
+            workMinutes=minutes;
             buttonRestClock()
         }
         workSeconds=seconds;
     }
+    
+    
 }
 
 
@@ -82,14 +115,14 @@ function buttonRestClock(){
 }
 
 
-
+//Handles logic of the rest portion timer
 function restClock(){
     timerInterval.innerHTML= restMinutes + ":" + restSeconds--;
     if(restSeconds==-1){
         restMinutes--;
         if(restMinutes==-1 && restSeconds==-1){
             clearInterval(restTimer);
-            buttonClickClock();
+            resetButton.click();
         }
     }
 }

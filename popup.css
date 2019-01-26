@@ -7,7 +7,19 @@ body {
     height:275px;
     text-align:center;
 }
-#button {
+button {
+    padding:8px;
+    margin: 4px 4px;
+    background:transparent;
+    border:2px solid black;
+    border-radius:6px;
+
+}
+button:hover{
+    background-color:#8b0000;
+    color:white;
+}
+#timerButton {
     color:black;
     background-color: #8b0000;
     height: 150px;
@@ -21,6 +33,7 @@ body {
     border-radius:50%;
     
 }
+
 #session{
     color:black;
     font-size:40px;
