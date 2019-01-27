@@ -15,10 +15,7 @@ var timerValue=true;
 
 var button=document.getElementById('timerButton');
 var timerInterval=document.getElementById('timerInterval');
-var increaseWorkInterval=document.getElementById('incWorkInterval');
-var decreaseWorkInterval=document.getElementById('decWorkInterval');
 var innerMinutes=document.getElementById('innerMinutes');
-var workInterval=document.getElementById('workInterval');
 var port=chrome.extension.connect({
     name:"Sample Communication"
     
@@ -31,6 +28,8 @@ var timeSpentObj={
 
 
 document.addEventListener('DOMContentLoaded',function(){
+    var increaseWorkInterval=document.getElementById('incWorkInterval');
+    var decreaseWorkInterval=document.getElementById('decWorkInterval');
     innerMinutes.innerHTML= minutes + " minutes";
     button.addEventListener('click',buttonWorkClock);
     increaseWorkInterval.addEventListener('click' ,incrementWorkMinutes);
