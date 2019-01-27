@@ -37,12 +37,6 @@ document.addEventListener('DOMContentLoaded',function(){
     decreaseWorkInterval.addEventListener('click', decrementWorkMinutes)
     resetButton.addEventListener('click', reset);
     
-    console.log("totalMinutes: totalSeconds" + timeSpentObj.min+ ":" + timeSpentObj.sec);
-
-    port.onMessage.addListener(function(msg){
-        console.log("message recieved " + msg);
-    });
-    
 });
 
 function reset(){
