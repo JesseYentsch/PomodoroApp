@@ -19,6 +19,15 @@ var increaseWorkInterval=document.getElementById('incWorkInterval');
 var decreaseWorkInterval=document.getElementById('decWorkInterval');
 var innerMinutes=document.getElementById('innerMinutes');
 var workInterval=document.getElementById('workInterval');
+var port=chrome.extension.connect({
+    name:"Sample Communication"
+    
+});
+
+var timeSpentObj={
+    min:0,
+    sec:0
+};
 
 
 document.addEventListener('DOMContentLoaded',function(){
@@ -27,19 +36,13 @@ document.addEventListener('DOMContentLoaded',function(){
     increaseWorkInterval.addEventListener('click' ,incrementWorkMinutes);
     decreaseWorkInterval.addEventListener('click', decrementWorkMinutes)
     resetButton.addEventListener('click', reset);
-    var port=chrome.extension.connect({
-        name:"Sample Communication"
-        
-    });
-    port.postMessage("To the background");
+    
+    console.log("totalMinutes: totalSeconds" + timeSpentObj.min+ ":" + timeSpentObj.sec);
+
     port.onMessage.addListener(function(msg){
         console.log("message recieved " + msg);
     });
-    port.onDisconnect.addListener(function(){
-        
-    });
     
-   
 });
 
 function reset(){
@@ -90,8 +93,11 @@ function buttonWorkClock(){
 function workClock(){
     
     timerInterval.innerHTML=   workMinutes + ":" + workSeconds--;
+    timeSpentObj.sec++
     if(workSeconds==-1){
         workMinutes--;
+        timeSpentObj.min++;
+        timeSpentObj.sec=0;
         if(workMinutes==-1 && workSeconds==-1){
             clearInterval(timer);
             workMinutes=minutes;
@@ -99,8 +105,7 @@ function workClock(){
         }
         workSeconds=seconds;
     }
-    
-    
+    port.postMessage(timeSpentObj);
 }
 
 
